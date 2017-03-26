@@ -26,7 +26,7 @@ SOFTWARE.
 
 #===================================
 # Criado por: Wolfterro
-# Versão: 1.1 - Python 2.x
+# Versão: 1.0 - Python 2.x
 # Data: 26/03/2017
 #===================================
 
@@ -168,18 +168,12 @@ class Ui_MainWindow(object):
 		self.statusbar = QtGui.QStatusBar(MainWindow)
 		self.statusbar.setObjectName(_fromUtf8("statusbar"))
 		MainWindow.setStatusBar(self.statusbar)
-		self.actionSalvar = QtGui.QAction(MainWindow)
-		self.actionSalvar.setObjectName(_fromUtf8("actionSalvar"))
-		self.actionNovo = QtGui.QAction(MainWindow)
-		self.actionNovo.setObjectName(_fromUtf8("actionNovo"))
 		self.actionSalvar_Como = QtGui.QAction(MainWindow)
 		self.actionSalvar_Como.setObjectName(_fromUtf8("actionSalvar_Como"))
 		self.actionSair = QtGui.QAction(MainWindow)
 		self.actionSair.setObjectName(_fromUtf8("actionSair"))
 		self.actionFonte = QtGui.QAction(MainWindow)
 		self.actionFonte.setObjectName(_fromUtf8("actionFonte"))
-		self.menuArquivo.addAction(self.actionNovo)
-		self.menuArquivo.addAction(self.actionSalvar)
 		self.menuArquivo.addAction(self.actionSalvar_Como)
 		self.menuArquivo.addAction(self.actionSair)
 		self.menuFormatar.addAction(self.actionFonte)
@@ -206,10 +200,8 @@ class Ui_MainWindow(object):
 
 		# Adicionando evento 'triggered.connect' aos menus da janela
 		# ==========================================================
-		self.actionNovo.triggered.connect(Handler.Clear)
 		self.actionSair.triggered.connect(Handler.ExitProgram)
-		self.actionSalvar.triggered.connect(Handler.Save)
-		self.actionSalvar_Como.triggered.connect(Handler.SaveAs)
+		self.actionSalvar_Como.triggered.connect(Handler.GetValuesAndSaveAs)
 		self.actionFonte.triggered.connect(Handler.ChangeFont)
 
 		self.retranslateUi(MainWindow)
@@ -238,8 +230,6 @@ class Ui_MainWindow(object):
 		self.pushButton_15.setText(_translate("MainWindow", "<hr>", None))
 		self.menuArquivo.setTitle(_translate("MainWindow", "Arquivo", None))
 		self.menuFormatar.setTitle(_translate("MainWindow", "Formatar", None))
-		self.actionNovo.setText(_translate("MainWindow", "Novo", None))
-		self.actionSalvar.setText(_translate("MainWindow", "Salvar", None))
 		self.actionSalvar_Como.setText(_translate("MainWindow", "Salvar Como...", None))
 		self.actionSair.setText(_translate("MainWindow", "Sair", None))
 		self.actionFonte.setText(_translate("MainWindow", "Fonte...", None))
@@ -251,7 +241,7 @@ if __name__ == "__main__":
 	
 	# Os métodos do programa serão definidos pelo Handler
 	# ---------------------------------------------------
-	Handler = WindowHandler(ui, MainWindow)
+	Handler = WindowHandler(ui)
 
 	# Definindo locale do programa
 	# ----------------------------

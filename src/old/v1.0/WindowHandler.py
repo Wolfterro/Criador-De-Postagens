@@ -26,7 +26,7 @@ SOFTWARE.
 
 #===================================
 # Criado por: Wolfterro
-# Versão: 1.1 - Python 2.x
+# Versão: 1.0 - Python 2.x
 # Data: 26/03/2017
 #===================================
 
@@ -51,25 +51,9 @@ from GlobalVars import GlobalVars
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
-# Codificação do programa.
-# ========================
-try:
-	_fromUtf8 = QtCore.QString.fromUtf8
-except AttributeError:
-	def _fromUtf8(s):
-		return s
-
-try:
-	_encoding = QtGui.QApplication.UnicodeUTF8
-	def _translate(context, text, disambig):
-		return QtGui.QApplication.translate(context, text, disambig, _encoding)
-except AttributeError:
-	def _translate(context, text, disambig):
-		return QtGui.QApplication.translate(context, text, disambig)
-
-# Determinando a pasta 'home' do usuário.
-# !!! NÃO-IMPLEMENTADO AINDA !!!
-# =======================================
+# Definindo Versão do Programa e determinando a pasta 'home' do usuário.
+# NÃO-IMPLEMENTADA
+# ======================================================================
 if platform.system() == "Windows":
 	buf = ctypes.create_unicode_buffer(1024)
 	ctypes.windll.kernel32.GetEnvironmentVariableW(u"USERPROFILE", buf, 1024)
@@ -77,33 +61,20 @@ if platform.system() == "Windows":
 else:
 	home_dir = expanduser("~")
 
-# Classe de métodos da janela principal do programa
-# =================================================
 class WindowHandler(object):
 	# Obtendo o objeto da janela principal do programa
 	# ================================================
-	def __init__(self, ui, MainWindow):
-		self.ui = ui
-		self.MainWindow = MainWindow
-		self.Filename = ""
+	def __init__(self, ui):
+		self.window = ui
 		self.CheckModelFile()
 
 	# Adicionando tags ao texto principal
 	# ===================================
 	def InsertTag(self, Tag, isNewLine):
 		if isNewLine:
-			self.ui.textEdit.insertPlainText("%s\n" % (Tag))
+			self.window.textEdit.insertPlainText("%s\n" % (Tag))
 		else:
-			self.ui.textEdit.insertPlainText(Tag)
-
-	# Limpando todos os campos e zerando nome de arquivo para um novo post
-	# ====================================================================
-	def Clear(self):
-		self.ui.textEdit.clear()
-		self.ui.lineEdit.clear()
-		self.ui.lineEdit_2.clear()
-		self.Filename = ""
-		self.ShowOpenedFilename(False)
+			self.window.textEdit.insertPlainText(Tag)
 
 	# Gerando texto automático para inserir como identificador no arquivo .html
 	# =========================================================================
@@ -117,86 +88,55 @@ class WindowHandler(object):
 	def GenerateFormattedData(self):
 		return "%s" % (datetime.datetime.now().strftime("%d/%m/%Y"))
 
-	# Mostrando o arquivo aberto no título da janela
-	# ==============================================
-	def ShowOpenedFilename(self, isOpened):
-		if isOpened:
-			self.MainWindow.setWindowTitle(_translate("MainWindow", "Criador de Postagens - v%s - %s" % (GlobalVars.Version,
-				self.Filename), None))
-		else:
-			self.MainWindow.setWindowTitle(_translate("MainWindow", "Criador de Postagens - v%s" % (GlobalVars.Version), None))
-
-	# Salvando em um novo arquivo .html
-	# =================================
-	def SaveAs(self):
-		Title, SubTitle, GeneratedText, FormattedData, MainPost = self.GetValues()
-		
-		self.ChosenFilename = QtGui.QFileDialog.getSaveFileName(None, "Salvar como", "", u"Página da Web (*.html)")
-
-		if self.ChosenFilename != "":
-			self.Filename = self.ChosenFilename
-			self.SaveMethod(Title, SubTitle, GeneratedText, FormattedData, MainPost)
-			self.ShowOpenedFilename(True)
-
-	# Salvando arquivo .html aberto no programa
-	# =========================================
-	def Save(self):
-		if self.Filename != "":
-			Title, SubTitle, GeneratedText, FormattedData, MainPost = self.GetValues()
-			self.SaveMethod(Title, SubTitle, GeneratedText, FormattedData, MainPost)
-		else:
-			self.SaveAs()
-
-	# Método comum para salvamento de arquivo
-	# =======================================
-	def SaveMethod(self, Title, SubTitle, GeneratedText, FormattedData, MainPost):
-		FileModel = open("model.html", "r")
-		ModelText = FileModel.read()
-		FileModel.close()
-
-		ModelText = ModelText.replace("[####TÍTULO####]", Title)				# Inserindo título
-		ModelText = ModelText.replace("[####TEXTO-GERADO####]", GeneratedText)	# Inserindo texto gerado
-		ModelText = ModelText.replace("[####DATAFORMATADA####]", FormattedData)	# Inserindo data formatada
-		ModelText = ModelText.replace("[####SUBTÍTULO####]", SubTitle)			# Inserindo subtítulo
-		ModelText = ModelText.replace("[####POSTAGEM-PRINCIPAL####]", MainPost)	# Inserindo post principal
-
-		SavedFile = open(unicode(self.Filename), "w")
-		SavedFile.write(ModelText)
-		SavedFile.close()
-
-	# Resgatando os valores do programa
-	# =================================
-	def GetValues(self):
-		Title = cgi.escape(self.ui.lineEdit.text())
-		SubTitle = cgi.escape(self.ui.lineEdit_2.text())
+	# Resgatando os valores do programa e salvando em um arquivo .html
+	# ================================================================
+	def GetValuesAndSaveAs(self):
+		Title = cgi.escape(self.window.lineEdit.text())
+		SubTitle = cgi.escape(self.window.lineEdit_2.text())
 		GeneratedText = self.GenerateAutoText()
 		FormattedData = self.GenerateFormattedData()
-		MainPost = self.ui.textEdit.toPlainText().replace("\n", "\n\t\t\t\t\t")
+		MainPost = self.window.textEdit.toPlainText().replace("\n", "\n\t\t\t\t\t")
+		
+		Filename = QtGui.QFileDialog.getSaveFileName(None, "Salvar como", "", u"Página da Web (*.html)")
 
-		return [Title, SubTitle, GeneratedText, FormattedData, MainPost]
+		if Filename != "":
+			FileModel = open("model.html", "r")
+			ModelText = FileModel.read()
+			FileModel.close()
+
+			ModelText = ModelText.replace("[####TÍTULO####]", Title)				# Inserindo título
+			ModelText = ModelText.replace("[####TEXTO-GERADO####]", GeneratedText)	# Inserindo texto gerado
+			ModelText = ModelText.replace("[####DATAFORMATADA####]", FormattedData)	# Inserindo data formatada
+			ModelText = ModelText.replace("[####SUBTÍTULO####]", SubTitle)			# Inserindo subtítulo
+			ModelText = ModelText.replace("[####POSTAGEM-PRINCIPAL####]", MainPost)	# Inserindo post principal
+
+			SavedFile = open(unicode(Filename), "w")
+			SavedFile.write(ModelText)
+			SavedFile.close()
 
 	# Saindo do programa
 	# ==================
 	def ExitProgram(self):
 		sys.exit(0)
 
-	# Diálogo para alterar a fonte do campo de postagem (self.ui.textEdit)
-	# ====================================================================
+	# Diálogo para alterar a fonte do campo de postagem (self.window.textEdit)
+	# ========================================================================
 	def ChangeFont(self):
 		FontDialog = QtGui.QFontDialog()
 		FontDialog.setWindowIcon(QtGui.QIcon("Icon.ico"))
-		SelectedFont, isOK = FontDialog.getFont(self.ui.textEdit)
+		SelectedFont, isOK = FontDialog.getFont(self.window.textEdit)
 
 		if isOK:
-			self.ui.textEdit.setFont(SelectedFont)
+			self.window.textEdit.setFont(SelectedFont)
 
 	# Verificando o arquivo modelo para criar a postagem
 	# ==================================================
 	def CheckModelFile(self):
 		if os.path.isfile("model.html"):
+			originalMD5 = "e5f02f183eb2dea4cfda8f97c8e39b5e"
 			fileMD5 = hashlib.md5(open("model.html", 'rb').read()).hexdigest()
 			
-			if fileMD5 != GlobalVars.ModelFileMD5:
+			if originalMD5 != fileMD5:
 				self.ShowMessageBox(u"Erro!", 
 					QtGui.QMessageBox.Critical, 
 					u"Erro de checksum MD5 no arquivo modelo!", 
