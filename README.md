@@ -15,6 +15,8 @@
 
 ###### Caso alguém achar útil o meu programa e quiser utilizar em seu próprio website, terá de usar um outro arquivo modelo e alterar a hash definida no programa para que ele possa aceitar o novo modelo!
 
+### [Verifique o CHANGELOG para maiores informações sobre novas versões!](https://raw.github.com/Wolfterro/Criador-De-Postagens/master/CHANGELOG.txt)
+
 ### Requisitos:
 
 #### Compilando:
@@ -29,5 +31,5 @@
 
 ### Download:
 
-#### ***Binário (Windows):*** https://github.com/Wolfterro/Criador-De-Postagens/releases/tag/v1.0-Windows
+#### ***Binário (Windows):*** https://github.com/Wolfterro/Criador-De-Postagens/releases/tag/v1.1-Windows
 #### ***Código-fonte:*** https://github.com/Wolfterro/Criador-De-Postagens/archive/master.zip
