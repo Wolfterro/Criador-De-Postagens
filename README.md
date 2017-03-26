@@ -29,5 +29,5 @@
 
 ### Download:
 
-#### ***Binário:*** https://github.com/Wolfterro/Criador-De-Postagens/releases/tag/v1.0
+#### ***Binário (Windows):*** https://github.com/Wolfterro/Criador-De-Postagens/releases/tag/v1.0-Windows
 #### ***Código-fonte:*** https://github.com/Wolfterro/Criador-De-Postagens/archive/master.zip
