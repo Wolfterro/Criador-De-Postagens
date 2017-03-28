@@ -13,7 +13,9 @@
 
 ###### O arquivo 'model.html' NÃO PODE SER ALTERADO DE MANEIRA ALGUMA! O programa verifica o MD5 do arquivo modelo e faz uma comparação com a hash que ele possui do arquivo original. Se houver mudanças o programa NÃO IRÁ INICIAR, dando um aviso de que o arquivo modelo foi modificado ou corrompido!
 
-###### Caso alguém achar útil o meu programa e quiser utilizar em seu próprio website, terá de usar um outro arquivo modelo e alterar a hash definida no programa para que ele possa aceitar o novo modelo!
+###### O programa também irá gerar uma template para a chamada do post dentro do arquivo criado! Basta copiar este template e colar no arquivo 'posts.html', logo abaixo do exemplo de postagem, para que possa ficar no topo da lista de postagens.
+
+###### Caso alguém ache útil o meu programa e quiser utilizar em seu próprio website, terá de usar um outro arquivo modelo e alterar a hash definida no programa para que ele possa aceitar o novo modelo! Assim como trocar alguns templates de lugar para que o programa possa substituir bem o título, o subtítulo, a data e hora da postagem, o link da postagem e a postagem completa!
 
 ### [Verifique o CHANGELOG para maiores informações sobre novas versões!](https://raw.github.com/Wolfterro/Criador-De-Postagens/master/CHANGELOG.txt)
 
@@ -31,5 +33,5 @@
 
 ### Download:
 
-#### ***Binário (Windows):*** https://github.com/Wolfterro/Criador-De-Postagens/releases/tag/v1.1-Windows
+#### ***Binário (Windows):*** https://github.com/Wolfterro/Criador-De-Postagens/releases/tag/v1.2-Windows
 #### ***Código-fonte:*** https://github.com/Wolfterro/Criador-De-Postagens/archive/master.zip
