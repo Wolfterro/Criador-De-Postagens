@@ -26,8 +26,8 @@ SOFTWARE.
 
 #===================================
 # Criado por: Wolfterro
-# Versão: 1.2 - Python 2.x
-# Data: 28/03/2017
+# Versão: 1.1 - Python 2.x
+# Data: 26/03/2017
 #===================================
 
 from PyQt4 import QtCore, QtGui

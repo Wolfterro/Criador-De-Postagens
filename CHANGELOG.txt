@@ -7,14 +7,20 @@ Um simples criador de postagens para meu site pessoal no GitHub!
 CHANGELOG:
 ==========
 
+VERSÃO 1.2:
+- Template para a chamada da postagem é gerada pelo programa no arquivo criado.
+--- Basta copiar o template e colar no arquivo 'posts.html', logo abaixo do exemplo de postagem.
+
+#-----------------------------------------------------------------------------------------------
+
 VERSÃO 1.1:
 - Variável com o valor da hash MD5 do arquivo modelo movida para a  classe GlobalVars.
 - Adicionada opção de salvar diretamente o arquivo já aberto pelo programa.
 - Adicionada opção de limpar todos os campos e fechar o arquivo já aberto pelo programa.
 
-#---------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------
 
 VERSÃO 1.0:
 - Versão inicial do programa.
 
-#---------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------

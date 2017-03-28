@@ -26,8 +26,8 @@ SOFTWARE.
 
 #===================================
 # Criado por: Wolfterro
-# Versão: 1.2 - Python 2.x
-# Data: 28/03/2017
+# Versão: 1.1 - Python 2.x
+# Data: 26/03/2017
 #===================================
 
 from __future__ import print_function
@@ -105,15 +105,6 @@ class WindowHandler(object):
 		self.Filename = ""
 		self.ShowOpenedFilename(False)
 
-	# Gerando texto de chamada para o post
-	# ====================================
-	def GenerateCaller(self, MainPost):
-		if MainPost != "":
-			if unicode(MainPost)[:3] == "<p>":
-				return unicode(MainPost).splitlines()[0]
-		
-		return "<p>Clique em <b>Leia mais!</b> para ler a postagem na íntegra!</p>"
-
 	# Gerando texto automático para inserir como identificador no arquivo .html
 	# =========================================================================
 	def GenerateAutoText(self):
@@ -138,27 +129,27 @@ class WindowHandler(object):
 	# Salvando em um novo arquivo .html
 	# =================================
 	def SaveAs(self):
+		Title, SubTitle, GeneratedText, FormattedData, MainPost = self.GetValues()
+		
 		self.ChosenFilename = QtGui.QFileDialog.getSaveFileName(None, "Salvar como", "", u"Página da Web (*.html)")
 
 		if self.ChosenFilename != "":
 			self.Filename = self.ChosenFilename
-			self.SaveMethod()
+			self.SaveMethod(Title, SubTitle, GeneratedText, FormattedData, MainPost)
 			self.ShowOpenedFilename(True)
 
 	# Salvando arquivo .html aberto no programa
 	# =========================================
 	def Save(self):
 		if self.Filename != "":
-			self.SaveMethod()
+			Title, SubTitle, GeneratedText, FormattedData, MainPost = self.GetValues()
+			self.SaveMethod(Title, SubTitle, GeneratedText, FormattedData, MainPost)
 		else:
 			self.SaveAs()
 
 	# Método comum para salvamento de arquivo
 	# =======================================
-	def SaveMethod(self):
-		Title, SubTitle, GeneratedText, FormattedData, MainPost, Caller = self.GetValues()
-		PostLink = "posts/%s" % (os.path.basename(unicode(self.Filename)))
-
+	def SaveMethod(self, Title, SubTitle, GeneratedText, FormattedData, MainPost):
 		FileModel = open("model.html", "r")
 		ModelText = FileModel.read()
 		FileModel.close()
@@ -168,8 +159,6 @@ class WindowHandler(object):
 		ModelText = ModelText.replace("[####DATAFORMATADA####]", FormattedData)	# Inserindo data formatada
 		ModelText = ModelText.replace("[####SUBTÍTULO####]", SubTitle)			# Inserindo subtítulo
 		ModelText = ModelText.replace("[####POSTAGEM-PRINCIPAL####]", MainPost)	# Inserindo post principal
-		ModelText = ModelText.replace("[####CHAMADA-POST####]", Caller)			# Inserindo chamada do post
-		ModelText = ModelText.replace("[####LINK-POSTAGEM####]", PostLink)		# Inserindo link da postagem
 
 		SavedFile = open(unicode(self.Filename), "w")
 		SavedFile.write(ModelText)
@@ -183,9 +172,8 @@ class WindowHandler(object):
 		GeneratedText = self.GenerateAutoText()
 		FormattedData = self.GenerateFormattedData()
 		MainPost = self.ui.textEdit.toPlainText().replace("\n", "\n\t\t\t\t\t")
-		Caller = self.GenerateCaller(MainPost)
 
-		return [Title, SubTitle, GeneratedText, FormattedData, MainPost, Caller]
+		return [Title, SubTitle, GeneratedText, FormattedData, MainPost]
 
 	# Saindo do programa
 	# ==================

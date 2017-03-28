@@ -26,10 +26,10 @@ SOFTWARE.
 
 #===================================
 # Criado por: Wolfterro
-# Versão: 1.2 - Python 2.x
-# Data: 28/03/2017
+# Versão: 1.1 - Python 2.x
+# Data: 26/03/2017
 #===================================
 
 class GlobalVars:
-	Version = "1.2"
-	ModelFileMD5 = "5c415740f95c0f2d9a75e4e02505e648"
+	Version = "1.1"
+	ModelFileMD5 = "e5f02f183eb2dea4cfda8f97c8e39b5e"
